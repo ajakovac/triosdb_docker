@@ -5,7 +5,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from database.client import DataClient
+from session.client import DataClient
 from utils.utilities import RandomName
 
 from configs.logging_config import setup_logger
@@ -154,11 +154,6 @@ if __name__ == "__main__":
             continue
         filename = command
 
-    from database.server import DatabaseServer
-    from database.client import DataClient
-
-    server = DatabaseServer()
-    server.start(databasename)
     client = DataClient()
 
     file_to_data_hierarchical(client, module, filename)

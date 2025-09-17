@@ -1,7 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
-from src.database.triplets import TripletSet
+from utils.triplets import TripletSet
 from dataclasses import dataclass, field
 
 @dataclass

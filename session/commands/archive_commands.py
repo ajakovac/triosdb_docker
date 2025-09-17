@@ -5,11 +5,11 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from session.manager import SessionManager
-from src.session.response_model import CommandResponse
+from configs.response_model import CommandResponse
 
 from utils.utilities import *
-from database.triplets import *
-from database.client import DataClient
+from utils.triplets import *
+from session.client import DataClient
 
 from configs.logging_config import setup_logger
 logger = setup_logger(__file__)

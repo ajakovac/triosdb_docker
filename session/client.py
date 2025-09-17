@@ -1,14 +1,14 @@
 import re
 import json
 from asteval import Interpreter
+from session.connector import DatabaseConnector
 
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from database.connector import DatabaseConnector
 from utils.utilities import *
-from database.triplets import *
+from utils.triplets import *
 
 from configs.logging_config import setup_logger
 logger = setup_logger(__file__)

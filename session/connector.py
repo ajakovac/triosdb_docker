@@ -1,70 +1,21 @@
-from __future__ import annotations
-
-from collections import deque
+# src/connector.py
+import redis
+import json
+import threading, time, signal
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
-from database.server import DatabaseServer
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+from utils.utilities import *
 from configs.logging_config import setup_logger
 logger = setup_logger(__file__)
 
-class UndoBuffer:
-    def __init__(self, maxlen):
-        self.maxlen = maxlen
-        self.buffer = []
-        self.pos = 0  # shared read/write position: read from self.pos-1, write to self.pos
-
-    def extend(self, values):
-        for v in values:
-            self.write(v)
-
-    def write(self, value):
-        if self.pos == len(self.buffer):
-            self.buffer.append(value)
-            self.buffer = self.buffer[-self.maxlen:]
-            self.pos = len(self.buffer)
-        else:
-            self.buffer[self.pos] = value
-            self.pos += 1
-            self.buffer = self.buffer[:self.pos]
-    
-    def peek(self):
-        if self.pos == 0:
-            return None
-        return self.buffer[self.pos-1]
-
-    def undo(self):
-        if self.pos == 0:
-            return None
-        self.pos -= 1
-        return self.buffer[self.pos]
-
-    def redo(self):
-        if self.pos == len(self.buffer):
-            return None
-        self.pos += 1
-        return self.buffer[self.pos-1]
-
-    def reset(self):
-        self.pos = len(self.buffer)
-
-    def __repr__(self):
-        return f"Buffer: {self.buffer}, Position: {self.pos}"
-
+from configs.settings import settings
 
 class DatabaseConnector:
     def __init__(self):
-        self.server = DatabaseServer()
-        try:
-            self.client = self.server.get_client()
-        except:
-            self.server.start()
-            self.client = self.server.get_client()
-        self.undo_buffer = UndoBuffer(maxlen=self.server.config_system['undo_list_length'])
-    
-    def path(self):
-        return self.server.mounted_path()
+        self.client = redis.Redis.from_url(settings.REDIS_URL, decode_responses=True)
+        self.undo_buffer = UndoBuffer(maxlen=settings.undo_list_length)
 
     def get(self, key) ->list:
         res = self.client.get(key)

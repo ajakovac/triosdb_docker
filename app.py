@@ -2,13 +2,13 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from fastapi.middleware.cors import CORSMiddleware
+
 from routes import login, command, upload
+from configs.settings import settings
+from session.manager import SessionManager
 
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from src.session import *
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -20,7 +20,14 @@ async def lifespan(app: FastAPI):
     session.stop()
     print("🔓 Lifespan end")
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(title="triosdb", version="0.1.0")
+
+# Health check endpoint
+@app.get("/healthz")
+def healthz():
+    return {"status": "ok"}
+
+# CORS settings
 app.add_middleware(
     CORSMiddleware,
     allow_origins= ["*"],
@@ -33,5 +40,5 @@ app.add_middleware(
 app.include_router(login.router)
 app.include_router(command.router)
 app.include_router(upload.router)
-
+app.router.lifespan_context = lifespan
 

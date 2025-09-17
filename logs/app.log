@@ -1,0 +1,14 @@
+INFO    (2025-09-16 10:43:15.274) -> manager: install: creating _system module
+INFO    (2025-09-16 10:43:15.480) -> manager: install: created "su" user with random password lyhogyvmio; please change it!
+DEBUG   (2025-09-16 10:43:15.480) -> manager: No valid SECRET_KEY -- generating
+INFO    (2025-09-16 10:43:15.495) -> manager: Starting SessionManager
+ERROR   (2025-09-16 10:44:18.160) -> manager: Session login: user su is not registered
+INFO    (2025-09-16 10:44:26.534) -> manager: SessionManager login: user user-su logged in
+INFO    (2025-09-16 10:44:27.967) -> manager: SessionManager login: user user-su logged in
+INFO    (2025-09-16 10:45:29.147) -> manager: Stopping SessionManager
+INFO    (2025-09-16 10:47:32.888) -> manager: Starting SessionManager
+INFO    (2025-09-16 10:48:05.939) -> manager: Stopping SessionManager
+INFO    (2025-09-16 10:49:36.084) -> manager: Starting SessionManager
+INFO    (2025-09-16 10:49:39.386) -> manager: SessionManager login: user user-su logged in
+INFO    (2025-09-16 10:49:47.108) -> manager: SessionManager login: user user-su logged in
+INFO    (2025-09-16 10:56:32.100) -> manager: Stopping SessionManager

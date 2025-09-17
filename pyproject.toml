@@ -11,6 +11,10 @@ dependencies = [
     "redis>=6.4.0",
     "uvicorn[standard]>=0.35.0",
     "ipykernel",
-    "jwt",
-    "passlib"
+    "passlib",
+    "asteval>=1.0.6",
+    "invoke>=2.2.0",
+    "pandas>=2.3.2",
+    "python-multipart>=0.0.20",
+    "pyjwt>=2.10.1",
 ]

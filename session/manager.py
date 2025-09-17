@@ -5,15 +5,15 @@ from datetime import datetime
 import time
 
 import re
-from models import CommandResponse
+from configs.response_model import CommandResponse
 
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from utils.utilities import *
-from database.triplets import *
-from database.client import DataClient
+from utils.triplets import *
+from session.client import DataClient
 
 from configs.logging_config import setup_logger
 logger = setup_logger(__file__)
@@ -31,7 +31,6 @@ class SessionManager:
         return decorator
 
     def __init__(self):
-        # set up and start database in case it was not started before
         self.system_data_client= DataClient()
         self.login_data = {"system": self.system_data_client}
 
@@ -74,7 +73,7 @@ class SessionManager:
     
     def stop(self):
         logger.info("Stopping SessionManager")
-
+    
     def decode_access_token(self, token: str):
         try:
             return jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])

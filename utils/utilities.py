@@ -107,3 +107,48 @@ class RandomName:
                 else: basename+=c
         basename=basename.strip()
         return basename
+
+class UndoBuffer:
+    def __init__(self, maxlen):
+        self.maxlen = maxlen
+        self.buffer = []
+        self.pos = 0  # shared read/write position: read from self.pos-1, write to self.pos
+
+    def extend(self, values):
+        for v in values:
+            self.write(v)
+
+    def write(self, value):
+        if self.pos == len(self.buffer):
+            self.buffer.append(value)
+            self.buffer = self.buffer[-self.maxlen:]
+            self.pos = len(self.buffer)
+        else:
+            self.buffer[self.pos] = value
+            self.pos += 1
+            self.buffer = self.buffer[:self.pos]
+    
+    def peek(self):
+        if self.pos == 0:
+            return None
+        return self.buffer[self.pos-1]
+
+    def undo(self):
+        if self.pos == 0:
+            return None
+        self.pos -= 1
+        return self.buffer[self.pos]
+
+    def redo(self):
+        if self.pos == len(self.buffer):
+            return None
+        self.pos += 1
+        return self.buffer[self.pos-1]
+
+    def reset(self):
+        self.pos = len(self.buffer)
+
+    def __repr__(self):
+        return f"Buffer: {self.buffer}, Position: {self.pos}"
+
+

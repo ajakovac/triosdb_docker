@@ -1,10 +1,9 @@
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException, Form
 from fastapi.security import OAuth2PasswordBearer
-from api.dependencies import get_session
-from src.session.manager import SessionManager
-from src.database.client import DataClient
-from src.utils.file_to_data_hierarchical import list_to_data_hierarchical
-from api.models.response_model import APIResponse
+from dependencies import get_session
+from session import SessionManager
+from utils.file_to_data_hierarchical import list_to_data_hierarchical
+from configs.response_model import APIResponse
 import pandas as pd
 import io
 import json

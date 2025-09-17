@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordBearer
-from api.dependencies import get_session
-from src.session.manager import SessionManager
-from api.models.response_model import APIResponse
+
+from dependencies import get_session
+from session import SessionManager
+from configs.response_model import APIResponse
 from datetime import datetime
 from pydantic import BaseModel
-from src.database.triplets import TripletSet
+from utils.triplets import TripletSet
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
