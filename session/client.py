@@ -274,17 +274,6 @@ class DataClient:
         if delete:
             self.delete(triplet, permitted=permitted)
         return len(tosave)
-
-    def load(self, filename, module, permitted = ['_all']):
-        if '_all' not in permitted and not self.in_modules(module, permitted):
-            logger.error(f'DataClient load: not authorized to write into {module}')
-            return 0
-        path = self.server.path()
-        if not filename.endswith('.json'):
-            filename += '.json'
-        with open(os.path.join(path, filename)) as f:
-            data = json.load(f)
-        return self.load_from_json(data, module, permitted=permitted)
     
     def load_from_json(self, data, module, permitted = ['_all']):
         """
@@ -293,6 +282,9 @@ class DataClient:
             - *module*: name of the module to load the data into
             Returns: number of added nodes
         """
+        if '_all' not in permitted and not self.in_modules(module, permitted):
+            logger.error(f'DataClient load_from_json: not authorized to write into {module}')
+            return 0
         added_nodes = 0
         for name, element in data.items():
             added_nodes += self.new(name, module)

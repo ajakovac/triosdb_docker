@@ -12,3 +12,9 @@ INFO    (2025-09-16 10:49:36.084) -> manager: Starting SessionManager
 INFO    (2025-09-16 10:49:39.386) -> manager: SessionManager login: user user-su logged in
 INFO    (2025-09-16 10:49:47.108) -> manager: SessionManager login: user user-su logged in
 INFO    (2025-09-16 10:56:32.100) -> manager: Stopping SessionManager
+INFO    (2025-09-17 16:33:13.995) -> manager: install: created "su" user with random password pikuzawepy; please change it!
+INFO    (2025-09-17 16:34:51.482) -> manager: SessionManager login: user user-su logged in
+INFO    (2025-09-17 16:35:49.639) -> manager: SessionManager logout: user user-su logged out
+WARNING (2025-09-17 16:36:02.451) -> manager: get_user_by_token: token expired for user "user-su", please log in again
+ERROR   (2025-09-17 16:36:02.451) -> manager: DataCommand command: invalid token
+INFO    (2025-09-17 16:36:21.097) -> manager: SessionManager login: user user-su logged in

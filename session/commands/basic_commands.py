@@ -16,6 +16,7 @@ logger = setup_logger(__file__)
 
 @SessionManager.register("new")
 def new_function(**kwargs):
+    """Usage: new <module>; <name> [;<name>...]"""
     argument = kwargs["argument"]
     user = kwargs["user"]
     data_client:DataClient = kwargs["data_client"]

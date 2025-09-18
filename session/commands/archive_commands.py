@@ -31,16 +31,18 @@ def save_or_archive(**kwargs):
     user = kwargs["user"]
     data_client:DataClient = kwargs["data_client"]
     token = kwargs["token"]
-    session = kwargs["session"]
+    session :SessionManager = kwargs["session"]
     todelete = kwargs["delete"]
     response:CommandResponse = kwargs["response"]
 
+    #only the system client is allowed to write to disk to avoid corrupted archive files
+    system_client = session.login_data["system"]
     permitted = data_client.simple_get([user],['write'],['*']).format('value')
     saved_items = 0
     for x in argument.split(';'):
         module = x.strip()
         triplets = data_client.get(module, permitted=permitted)
-        saved_items += data_client.save(triplets, module, delete=todelete, permitted=permitted)
+        saved_items += system_client.save(triplets, module, delete=todelete, permitted=permitted)
     if todelete:
         response.message += f'archived {saved_items} entries'
     else:
@@ -73,4 +75,15 @@ def load_function(**kwargs):
     response.message = f'loaded {loaded_items} entries'
     response.success = True
     return response
-
+"""
+    def load(self, filename, module, permitted = ['_all']):
+        if '_all' not in permitted and not self.in_modules(module, permitted):
+            logger.error(f'DataClient load: not authorized to write into {module}')
+            return 0
+        path = self.server.path()
+        if not filename.endswith('.json'):
+            filename += '.json'
+        with open(os.path.join(path, filename)) as f:
+            data = json.load(f)
+        return self.load_from_json(data, module, permitted=permitted)
+"""
